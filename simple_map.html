@@ -7,6 +7,11 @@
   <script
     src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
   <script src="https://openlayers.org/en/v5.3.0/build/ol.js"></script>
+
+  <script src="https://unpkg.com/ol-layerswitcher@3.5.0"></script>
+  <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.5.0/src/ol-layerswitcher.css" />
+
+
 </head>
 
 <body>
@@ -19,13 +24,20 @@
       name: 'Null Island'
     });
 
+    var iconFeature2 = new ol.Feature({
+      geometry: new ol.geom.Point([1224514.40, 5942074.07]),
+      name: 'My Point'
+    });
+
+
     // adding the feature to the source
     var vectorSource = new ol.source.Vector({
-      features: [iconFeature]
+      features: [iconFeature, iconFeature2 ]
     });
 
     // add the source to the layer
     var vectorLayer = new ol.layer.Vector({
+      title: "Points of Interest",
       source: vectorSource
     });
 
@@ -39,6 +51,7 @@
         ]),
       layers: [
         new ol.layer.Tile({
+          title: "OpenStreetMap Basemap",
           source: new ol.source.OSM()
         }),
         vectorLayer
@@ -51,6 +64,14 @@
         }
       )
     });
+
+    // add the layerswitcher here
+    var layerSwitcher = new ol.control.LayerSwitcher({
+        tipLabel: 'Legend', // Optional label for button
+        groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
+    });
+    // add the layerswitcher to the map
+    map.addControl(layerSwitcher);
 
   </script>
 </body>
