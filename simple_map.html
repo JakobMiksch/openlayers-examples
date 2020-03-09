@@ -18,12 +18,22 @@
   <div id="map" class="map"></div>
   <script>
 
+    // add a XYZ layer to our map
+    var worldTopo = new ol.layer.Tile({
+      title: 'World Topo Map',
+      source: new ol.source.XYZ({
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/' +
+          'World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+      })
+    });
+
     // defining a feature
     var iconFeature = new ol.Feature({
       geometry: new ol.geom.Point([0, 0]),
       name: 'Null Island'
     });
 
+    // defining another feature
     var iconFeature2 = new ol.Feature({
       geometry: new ol.geom.Point([1224514.40, 5942074.07]),
       name: 'My Point'
@@ -32,7 +42,7 @@
 
     // adding the feature to the source
     var vectorSource = new ol.source.Vector({
-      features: [iconFeature, iconFeature2 ]
+      features: [iconFeature, iconFeature2]
     });
 
     // add the source to the layer
@@ -54,6 +64,7 @@
           title: "OpenStreetMap Basemap",
           source: new ol.source.OSM()
         }),
+        worldTopo,
         vectorLayer
       ],
       target: 'map',
@@ -67,8 +78,8 @@
 
     // add the layerswitcher here
     var layerSwitcher = new ol.control.LayerSwitcher({
-        tipLabel: 'Legend', // Optional label for button
-        groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
+      tipLabel: 'Legend', // Optional label for button
+      groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
     });
     // add the layerswitcher to the map
     map.addControl(layerSwitcher);
