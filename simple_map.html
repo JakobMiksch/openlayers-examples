@@ -13,16 +13,35 @@
   <div id="map" class="map"></div>
   <script>
 
+    // defining a feature
+    var iconFeature = new ol.Feature({
+      geometry: new ol.geom.Point([0, 0]),
+      name: 'Null Island'
+    });
+
+    // adding the feature to the source
+    var vectorSource = new ol.source.Vector({
+      features: [iconFeature]
+    });
+
+    // add the source to the layer
+    var vectorLayer = new ol.layer.Vector({
+      source: vectorSource
+    });
+
     // This is my map
     var map = new ol.Map({
       controls:
         ol.control.defaults().extend([
-          new ol.control.ScaleLine()
+          new ol.control.ScaleLine(),
+          new ol.control.OverviewMap(),
+          new ol.control.FullScreen()
         ]),
       layers: [
         new ol.layer.Tile({
           source: new ol.source.OSM()
         }),
+        vectorLayer
       ],
       target: 'map',
       view: new ol.View(
