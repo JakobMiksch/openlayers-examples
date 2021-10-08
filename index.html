@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OpenLayers Example</title>
+    <link rel="stylesheet" href="lib/openlayers/ol.css" type="text/css">
+    <script src="lib/openlayers/ol.js"></script>
+    <style>
+        .map {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map" class="map"></div>
+    <script>
+
+        // add a XYZ layer to our map
+        var positron = new ol.layer.Tile({
+            title: 'Carto Positron Basemap',
+            source: new ol.source.XYZ({
+                url: 'https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                attributions: "Maps: © <a href='https://carto.com/attribution/' target='_blank'>CARTO</a> | <a href='https://openstreetmap.org/copyright' target='_blank'>© OpenStreetMap</a>-contributors | "
+            })
+        });
+
+        // defining a feature
+        var iconFeature = new ol.Feature({
+            geometry: new ol.geom.Point([0, 0]),
+            name: 'Null Island'
+        });
+
+        // defining another feature
+        var iconFeature2 = new ol.Feature({
+            geometry: new ol.geom.Point([1224514.40, 5942074.07]),
+            name: 'My Point'
+        });
+
+
+        // adding the feature to the source
+        var vectorSource = new ol.source.Vector({
+            features: [iconFeature, iconFeature2]
+        });
+
+        // create a style
+        var vectorStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 15,
+                fill: new ol.style.Fill({
+                    color: 'red'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: 'black',
+                    width: 2
+                })
+            }),
+        });
+
+        // add the source and the style to the layer
+        var vectorLayer = new ol.layer.Vector({
+            title: "Points of Interest",
+            source: vectorSource,
+            style: vectorStyle
+        });
+
+        // This is my map
+        var map = new ol.Map({
+            controls:
+                ol.control.defaults(),
+            layers: [
+                positron,
+                vectorLayer
+            ],
+            target: 'map',
+            view: new ol.View({
+                center: [1224514.40, 5942074.07],
+                zoom: 10
+            }
+            )
+        });
+    </script>
+</body>
+
+</html>
